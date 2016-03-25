@@ -6,8 +6,6 @@
 #include "default_strategy.h"
 #include "my_strategy.h"
 
-#define sqr(a) (a)*(a)
-
 const int Track::RUN_TIME = 300;
 const float Track::EPS = 1e-3;
 
@@ -31,11 +29,6 @@ bool Track::run() {
         throw std::invalid_argument("List of cockroaches cannot be empty!");
         return false;
     }
-    
-    // std::vector<int> standings(m_world.getCockroaches().size());
-    // for (unsigned int i = 0; i < standings.size(); ++i) standings[i] = i;   
-    // std::random_shuffle(standings.begin(), standings.end());
-    // m_standings = standings;
     
     std::vector<IStrategy*> strategies;
     for (unsigned int i = 0; i < m_world.getCockroaches().size(); ++i) {

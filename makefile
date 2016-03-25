@@ -42,5 +42,5 @@ obj/libs/netlink/%.o: libs/src/netlink/%.cpp
 
 clean:
 	@$(RM) -r obj
-	@rm -f ./.depend
-	@$(RM) daemon match test
+	@rm -f .depend
+	@$(RM) daemon match test client

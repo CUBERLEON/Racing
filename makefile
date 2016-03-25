@@ -12,7 +12,7 @@ vpath %.cpp libs/src/netlink
 
 src_daemon=cockroach.cpp daemon.cpp
 src_match=match.cpp cockroach.cpp obstacle.cpp track.cpp state.cpp world.cpp
-src_test=test.cpp
+src_test=test.cpp cockroach.cpp
 
 src_netlink=core.cpp smart_buffer.cpp socket.cpp socket_group.cpp util.cpp
 

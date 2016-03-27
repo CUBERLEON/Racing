@@ -1,5 +1,5 @@
-#ifndef STADIUM_H
-#define STADIUM_H
+#ifndef TRACK_H
+#define TRACK_H
 
 #include <vector>
 #include "world.h"

@@ -1,62 +1,29 @@
 #include <iostream>
-#include <cstring>
-
-#include <netlink/socket.h>
-#include <netlink/socket_group.h>
-
-using namespace std;
-
-const unsigned SERVER_PORT = 5000;
-
-class OnAccept: public NL::SocketGroupCmd {
-    void exec(NL::Socket* socket, NL::SocketGroup* group, void* reference) {
-        NL::Socket* newConnection = socket->accept();
-        group->add(newConnection);
-        cout << "\nConnection " << newConnection->hostTo() << ":" << newConnection->portTo() << " added...";
-        cout.flush();
-    }
-};
-class OnRead: public NL::SocketGroupCmd {
-    void exec(NL::Socket* socket, NL::SocketGroup* group, void* reference) {
-        cout << "\nREAD -- ";
-        cout.flush();
-        char buffer[256];
-        buffer[255] = '\0';
-        socket->read(buffer, 255);
-        size_t msgLen = strlen(buffer);
-        cout << "Message from " << socket->hostTo() << ":" << socket->portTo() << ". Text received: " << buffer;
-        cout.flush();
-        
-        for(unsigned i=1; i < (unsigned) group->size(); ++i)
-            if(group->get(i) != socket)
-                group->get(i)->send(buffer, msgLen + 1);
-    }
-};
-class OnDisconnect: public NL::SocketGroupCmd {
-    void exec(NL::Socket* socket, NL::SocketGroup* group, void* reference) {
-        group->remove(socket);
-        cout << "\nClient " << socket->hostTo() << " disconnected...";
-        cout.flush();
-        delete socket;
-    }
-};
+#include "server.h"
 
 int main() {
-    NL::init();
-    cout << "\nStarting Server...";
-    cout.flush();
-    NL::Socket socketServer(SERVER_PORT);
-    NL::SocketGroup group;
-    OnAccept onAccept;
-    OnRead onRead;
-    OnDisconnect onDisconnect;
-    group.setCmdOnAccept(&onAccept);
-    group.setCmdOnRead(&onRead);
-    group.setCmdOnDisconnect(&onDisconnect);
-    group.add(&socketServer);
-    while(true) {
-        if(!group.listen(1000))
-            cout << "\nNo msg recieved during the last 1 second";
+    try {
+        Server server(5000);
+        server.start();
+        
+        // Sleep(8000);
+        // for (unsigned i = 1; i <= server.getConnectionsCnt(); ++i)
+        //     server.sendMessage("ttt", i);
+        
+        while (true) {
+            for (int i = 0; i < server.getInboxSize(); ++i) {
+                std::cout << "Inbox message: " << server.getInbox()[i] << std::endl;
+                for (unsigned j = 1; j <= server.getConnectionsCnt(); ++j)
+                    server.sendMessage("forwarded message: " + server.getInbox()[i], j);
+            }
+            server.clearInbox();
+            Sleep(200);
+        }
+    } catch (std::exception& e) {
+        std::cout << e.what() << std::endl;
     }
+    
+    system("pause");    
+    
     return 0; 
 }

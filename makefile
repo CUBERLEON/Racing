@@ -25,7 +25,6 @@ all: daemon match test
 
 daemon: $(obj_daemon) $(obj_netlink)
 
-#-include ./.depend
 match: $(obj_match) $(obj_netlink)
 
 test: $(obj_test)
@@ -33,7 +32,6 @@ test: $(obj_test)
 obj/%.o: src/%.cpp
 	@mkdir -p obj
 	$(CXX) -c $(CXXFLAGS) $^ -o $@
-	@#$(CXX) $(CXXFLAGS) -MM $^>>./.depend
 
 obj/libs/netlink/%.o: libs/src/netlink/%.cpp
 	@mkdir -p obj/libs/netlink
@@ -42,4 +40,4 @@ obj/libs/netlink/%.o: libs/src/netlink/%.cpp
 clean:
 	@$(RM) -r obj
 	@rm -f .depend
-	@$(RM) daemon match test client
+	@$(RM) daemon match test

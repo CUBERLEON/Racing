@@ -21,7 +21,7 @@ obj_match=$(addprefix obj/,$(src_match:.cpp=.o))
 obj_test=$(addprefix obj/,$(src_test:.cpp=.o))
 obj_netlink=$(addprefix obj/libs/netlink/,$(src_netlink:.cpp=.o))
 
-all: daemon match test client
+all: daemon match test
 
 daemon: $(obj_daemon) $(obj_netlink)
 

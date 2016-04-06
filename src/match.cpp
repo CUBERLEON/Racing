@@ -4,23 +4,23 @@
 #include "client.h"
 
 int main(int argc, char** argv) {
-    try {
-        Client client("192.168.0.101", 5000);
-        client.connect();
-        client.sendMessage("aaaa");
-        client.sendMessage("bbbb");
+    // try {
+    //     Client client("127.0.0.1", 5000);
+    //     client.connect();
+    //     client.sendMessage("aaaa");
+    //     client.sendMessage("bbbb");
 
-        while (true) {
-            for (int i = 0; i < client.getInboxSize(); ++i)
-                std::cout << "Inbox message: " << client.getInbox()[i] << std::endl;
-            client.clearInbox();
-            Sleep(200);
-        }
-    } catch (std::exception& e) {
-        std::cout << e.what() << std::endl;
-    }
+    //     while (true) {
+    //         for (int i = 0; i < client.getInboxSize(); ++i)
+    //             std::cout << "Inbox message: " << client.getInbox()[i] << std::endl;
+    //         client.clearInbox();
+    //         Sleep(200);
+    //     }
+    // } catch (std::exception& e) {
+    //     std::cout << e.what() << std::endl;
+    // }
     
-    system("pause");
+    // system("pause");
     
     try {
         if (argc < 2)

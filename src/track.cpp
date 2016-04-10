@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <functional>
 #include <iostream>
+#include <fstream>
 #include "default_strategy.h"
 #include "my_strategy.h"
 
@@ -43,7 +44,7 @@ bool Track::run() {
     std::vector<int> standings;
         
     allStates.push_back(m_world.getStates());
-    for (unsigned int i = 0; i < RUN_TIME; ++i) {
+    for (unsigned int i = 1; i < RUN_TIME && standings.size() != strategies.size(); ++i) {
         std::vector<Move> moves(strategies.size());
         for (unsigned int j = 0; j < strategies.size(); ++j)
             if (!finished[j])
@@ -70,6 +71,19 @@ bool Track::run() {
 
     for (unsigned int i = 0; i < m_world.getCockroaches().size(); ++i)
         delete strategies[i];
+    
+    json data;
+    for (unsigned int i = 0; i < allStates.size(); ++i)
+        for (unsigned int j = 0; j < allStates[i].size(); ++j)
+            data["states"][i][j] = allStates[i][j].serialize();
+    data["world"] = m_world.serialize();
+    
+    std::fstream out;
+    std::string fileName = "run_data.dat"; 
+    out.open(fileName, std::fstream::out);
+    out << data.dump();
+    out.close();
+    system((".\\view.exe " + fileName).c_str());
     
     return m_run_finished = true;
 }

@@ -52,7 +52,7 @@ int main(int argc, char** argv) {
         t.run();
         
         //TODO: send response to server
-        std::cout << t.serialize().dump(4);
+        // std::cout << t.serialize().dump(4);
     } catch (const std::exception& e) {
         std::cerr << e.what();
         exit(1);

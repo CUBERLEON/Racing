@@ -23,7 +23,6 @@ public:
     json serialize() const;
     
     static const int RUN_TIME;
-    static const float EPS;
 protected:
 private:
     bool m_run_finished;

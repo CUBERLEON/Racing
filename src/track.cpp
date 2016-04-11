@@ -6,9 +6,9 @@
 #include <fstream>
 #include "default_strategy.h"
 #include "my_strategy.h"
+#include "utils.h"
 
-const int Track::RUN_TIME = 300;
-const float Track::EPS = 1e-3;
+const int Track::RUN_TIME = 500;
 
 Track::Track(float length, float width)
 : m_run_finished(false), m_world(length, width)
@@ -48,7 +48,7 @@ bool Track::run() {
         std::vector<Move> moves(strategies.size());
         for (unsigned int j = 0; j < strategies.size(); ++j)
             if (!finished[j])
-                strategies[j]->move(m_world.getCockroaches()[j], m_world, moves[j]);
+                strategies[j]->move(m_world.getCockroaches()[j], m_world.getStates()[j], m_world, moves[j]);
         for (unsigned int j = 0; j < strategies.size(); ++j)
             if (!finished[j])
                 m_world.update(moves[j], j);

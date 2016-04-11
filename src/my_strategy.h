@@ -8,8 +8,8 @@ class MyStrategy: public IStrategy
 public:
     MyStrategy() : IStrategy(NAME) {}
 
-    void move(const Cockroach& self, const World& world, Move& move) {
-        move.setSpeed({2, 2});
+    void move(const Cockroach& self, const State& state, const World& world, Move& move) {
+        move.setSpeed({100, 100});
     }
     
     static const std::string NAME; 

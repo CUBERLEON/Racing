@@ -38,13 +38,17 @@ int main(int argc, char** argv) {
         
         Track t(data["length"], data["width"]);
 
-        c.push_back(Cockroach("t1", 10, 1, 30, 8));
-        c.push_back(Cockroach("t2", 12, 1.1, 25, 7, "my_strategy"));
-        c.push_back(Cockroach("t3", 9, 0.7, 40, 11));
-        c.push_back(Cockroach("t4", 11, 1.2, 23, 6));
-                
-        o.push_back(Obstacle({5, 10}, 3, 0.5));
-        o.push_back(Obstacle({12, 8}, 4, 0.7));
+        c.push_back(Cockroach("t1", 1.5, 0.05, 30, 8));
+        c.push_back(Cockroach("t2", 2, 0.06, 25, 7, "my_strategy"));
+        c.push_back(Cockroach("t3", 1.45, 0.04, 40, 11));
+        c.push_back(Cockroach("t4", 1.8, 0.09, 23, 6));
+        
+        o.push_back(Obstacle({10, 20}, 7, 0.1));
+        o.push_back(Obstacle({50, 15}, 15, 0.1));
+        o.push_back(Obstacle({70, 10}, 13, 0.1));
+        o.push_back(Obstacle({90, 5}, 7, 0.1));
+        o.push_back(Obstacle({60, 13}, 9, 0.1));
+        o.push_back(Obstacle({75, 17}, 11, 0.1));
         
         t.setCockroaches(c);
         t.setObstacles(o);

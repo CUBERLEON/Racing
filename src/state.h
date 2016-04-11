@@ -15,7 +15,11 @@ public:
     State(const json& r);
     
     std::pair<float, float> getPos() const { return m_pos; }
+    float getPosX() const { return m_pos.first; }
+    float getPosY() const { return m_pos.second; }
     std::pair<float, float> getSpeed() const { return m_speed; }
+    float getSpeedX() const { return m_speed.first; }
+    float getSpeedY() const { return m_speed.second; }
     
     void update(const Move& m, const World& w, const Cockroach& c);
     

@@ -26,6 +26,14 @@ void State::update(const Move& m, const World& w, const Cockroach& c) {
         d *= c.getAccel() / tmp;
     newSpeed += d;
     
+    for (unsigned i = 0; i < w.getObstacles().size(); ++i) {
+        float dist = length(m_pos - w.getObstacles()[i].getPos()); 
+        if (dist <= w.getObstacles()[i].getRadius()) {
+            pair<float, float> v = (w.getObstacles()[i].getPos() - getPos()) / dist;
+            newSpeed += v * (w.getObstacles()[i].getMass() / sqr(dist));
+        }
+    }
+    
     //--------------------    
     float l = length(newSpeed);
     if (l > c.getMaxSpeed())
@@ -33,6 +41,11 @@ void State::update(const Move& m, const World& w, const Cockroach& c) {
         
     newPos += newSpeed;
     newPos = { std::max(0.f, std::min(w.getLength(), newPos.first)), std::max(0.f, std::min(w.getWidth(), newPos.second)) };
+    
+    if (newPos.first <= EPS || newPos.first + EPS >= w.getLength())
+        newSpeed.first = 0;
+    if (newPos.second <= EPS || newPos.second + EPS >= w.getWidth())
+        newSpeed.second = 0;
     
     m_speed = newSpeed;
     m_pos = newPos;

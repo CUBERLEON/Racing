@@ -6,12 +6,14 @@
 #include <fstream>
 #include <chrono>
 #include <thread>
+#include <cmath>
 #include "world.h"
+#include "utils.h"
 
 using json=nlohmann::json;
 
 void clean_scr(WINDOW* win = stdscr);
-void mvwaddcircle(WINDOW* win, unsigned y, unsigned x, char c, unsigned r);
+void mvwaddellipse(WINDOW* win, unsigned y, unsigned x, char c, int ry, int rx);
 
 int main(int argc, char** argv) {
     try {
@@ -44,13 +46,14 @@ int main(int argc, char** argv) {
         initscr();
         if (has_colors() == FALSE) {
             endwin();
-            throw std::runtime_error("Your terminal does not support colors!");
+            throw std::runtime_error("Your terminal does not support color!");
         }
         start_color();
         raw();
         keypad(stdscr, TRUE);
         noecho();
         curs_set(0);
+        srand(time(0));
         
         unsigned TPS = 20;
         unsigned TRACK_X = 140, TRACK_Y = unsigned(world.getWidth() / world.getLength() * TRACK_X);
@@ -64,6 +67,13 @@ int main(int argc, char** argv) {
         
         float x_factor = (TRACK_X-1) / world.getLength();
         float y_factor = (TRACK_Y-1) / world.getWidth();
+        // float dim = sqrt(1./sqr(x_factor) + 1./sqr(y_factor));
+        
+        std::vector<attr_t> cockroach_color(cockroachesCnt);
+        for (unsigned i = 0; i < cockroachesCnt; ++i) {
+            cockroach_color[i] = A_RGB(rand()%128 + 128, rand()%128 + 128, rand()%128 + 128, 0, 0, 0);
+        }
+        attr_t obstacle_color = A_RGB(255, 128, 128, 0, 0, 0);
         
         for (unsigned tick = 0; tick < ticksCnt; ++tick) {
             clean_scr();
@@ -72,17 +82,27 @@ int main(int argc, char** argv) {
             mvprintw(0, 0, "Tick: %d/%d, Cockroaches: %d", tick+1, ticksCnt, cockroachesCnt);
             move(1, 0);
             for (unsigned i = 0; i < cockroachesCnt; ++i) {
+                attron(cockroach_color[i]);
                 printw("%d:speed(%.1f, %.1f) ", i+1, states[tick][i].getSpeed().first, states[tick][i].getSpeed().second);
+                attroff(cockroach_color[i]);
             }
+
+            wattron(track, obstacle_color);
+            for (unsigned i = 0; i < world.getObstacles().size(); ++i) {
+                mvwaddellipse(track, world.getObstacles()[i].getPosY() * y_factor, world.getObstacles()[i].getPosX() * x_factor,
+                '#', world.getObstacles()[i].getRadius() * y_factor, world.getObstacles()[i].getRadius() * x_factor);
+            }
+            for (unsigned i = 0; i < world.getObstacles().size(); ++i) {
+                mvwaddch(track, world.getObstacles()[i].getPosY() * y_factor, world.getObstacles()[i].getPosX() * x_factor,
+                'O');
+            }
+            wattroff(track, obstacle_color);
             
             for (unsigned i = 0; i < cockroachesCnt; ++i) {
+                wattron(track, cockroach_color[i]);
                 mvwaddch(track, states[tick][i].getPos().second * y_factor, states[tick][i].getPos().first * x_factor,
                 'X');
-            }
-            
-            for (unsigned i = 0; i < world.getObstacles().size(); ++i) {
-                mvwaddcircle(track, world.getObstacles()[i].getPosY() * y_factor, world.getObstacles()[i].getPosX() * x_factor,
-                'O', 2);
+                wattroff(track, cockroach_color[i]);
             }
             
             refresh();
@@ -107,10 +127,9 @@ void clean_scr(WINDOW* win) {
             mvwaddch(win, j, i, ' ');
 }
 
-void mvwaddcircle(WINDOW* win, unsigned y, unsigned x, char c, unsigned r) {
-    // for (unsigned y=-radius; y<radius; y++) {
-    //     half_row_width=sqrt(radius*radius-y*y);
-    //     for(unsigned x=-half_row_width; x< half_row_width; x++)
-    //         WritePixel(centre_x+x, centre_y+y, colour);
-    // }
+void mvwaddellipse(WINDOW* win, unsigned y, unsigned x, char c, int ry, int rx) {
+    for (int i = -ry+1; i < ry; ++i)
+        for (int j = -rx+1; j < rx; ++j)
+            if (sqr(i)*sqr(rx-1)+sqr(j)*sqr(ry-1) <= sqr(rx-1)*sqr(ry-1))
+                mvwaddch(win, i+y, j+x, c);
 }

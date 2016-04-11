@@ -8,7 +8,7 @@ class DefaultStrategy: public IStrategy
 public:
     DefaultStrategy() : IStrategy(NAME) {}
 
-    void move(const Cockroach& self, const World& world, Move& move) {
+    void move(const Cockroach& self, const State& state, const World& world, Move& move) {
         move.setSpeed({100, 0});
     }
     

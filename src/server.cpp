@@ -100,7 +100,7 @@ void Server::OnAccept::exec(NL::Socket* socket, NL::SocketGroup* group, void* re
     try {
         NL::Socket* newConnection = socket->accept();
         group->add(newConnection);
-        std::cout << "Connection " << newConnection->hostTo() << ":" << newConnection->portTo() << " added..." << std::endl;
+        // std::cout << "Connection " << newConnection->hostTo() << ":" << newConnection->portTo() << " added..." << std::endl;
     } catch (...) {
         std::cerr << "Error! Couldn't add connection!" << std::endl;
     }
@@ -121,7 +121,7 @@ void Server::OnRead::exec(NL::Socket* socket, NL::SocketGroup* group, void* refe
 void Server::OnDisconnect::exec(NL::Socket* socket, NL::SocketGroup* group, void* reference) {
     try {
         group->remove(socket);
-        std::cout << "Client " << socket->hostTo() << " disconnected..." << std::endl;
+        // std::cout << "Client " << socket->hostTo() << " disconnected..." << std::endl;
         delete socket;
     } catch (...) {
         std::cerr << "Error! Couldn't dop connection!" << std::endl;

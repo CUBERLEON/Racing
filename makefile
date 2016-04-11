@@ -10,10 +10,10 @@ vpath %.o obj
 vpath %.cpp src
 vpath %.cpp libs/src/netlink
 
-src_daemon=server.cpp daemon.cpp
-src_match=match.cpp cockroach.cpp obstacle.cpp track.cpp state.cpp world.cpp client.cpp
-src_view=view.cpp cockroach.cpp obstacle.cpp state.cpp world.cpp
-src_test=test.cpp cockroach.cpp obstacle.cpp state.cpp world.cpp
+src_daemon=server.cpp cockroach.cpp obstacle.cpp utils.cpp daemon.cpp
+src_match=cockroach.cpp obstacle.cpp track.cpp state.cpp world.cpp client.cpp utils.cpp match.cpp
+src_view=cockroach.cpp obstacle.cpp state.cpp world.cpp utils.cpp view.cpp
+src_test=cockroach.cpp obstacle.cpp state.cpp world.cpp utils.cpp test.cpp
 
 src_netlink=core.cpp smart_buffer.cpp socket.cpp socket_group.cpp util.cpp
 

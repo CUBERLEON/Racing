@@ -7,7 +7,7 @@
 #include <netlink/socket.h>
 #include <netlink/socket_group.h>
 
-#define MAX_MESSAGE_SIZE 4096
+#define MAX_MESSAGE_SIZE 32768
 
 class Server
 {

@@ -2,6 +2,7 @@
 #define UTILS_H
 
 #include <utility>
+#include <string>
 #include <cmath>
 
 #define sqr(a) (a)*(a)
@@ -23,5 +24,7 @@ template <typename T, typename U> pair<T, U> operator/= (pair<T, U>& l, const fl
 template <typename T, typename U> float length(const pair<T, U>& a) {
     return std::sqrt(sqr(a.first) + sqr(a.second));
 }
+
+void replaceStringInPlace(std::string& subject, const std::string& search, const std::string& replace);
 
 #endif

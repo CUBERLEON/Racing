@@ -64,8 +64,9 @@ bool Track::run() {
     }
     
     int finishedCnt = standings.size();
-    standings.resize(m_world.getCockroaches().size());
-    for (unsigned int i = finishedCnt; i < standings.size(); ++i) standings[i] = i;
+    for (unsigned int i = 0; i < m_world.getCockroaches().size(); ++i)
+        if (!finished[i])
+            standings.push_back(i);
     std::sort(standings.begin() + finishedCnt, standings.end(), std::bind(&Track::standingsCmp, this, std::placeholders::_1, std::placeholders::_2));
     m_standings = standings;
 

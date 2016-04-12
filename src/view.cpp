@@ -67,13 +67,12 @@ int main(int argc, char** argv) {
         
         float x_factor = (TRACK_X-1) / world.getLength();
         float y_factor = (TRACK_Y-1) / world.getWidth();
-        // float dim = sqrt(1./sqr(x_factor) + 1./sqr(y_factor));
         
         std::vector<attr_t> cockroach_color(cockroachesCnt);
         for (unsigned i = 0; i < cockroachesCnt; ++i) {
-            cockroach_color[i] = A_RGB(rand()%128 + 128, rand()%128 + 128, rand()%128 + 128, 0, 0, 0);
+            cockroach_color[i] = A_RGB(rand()%256 + 256, rand()%256 + 256, rand()%256 +256, 0, 0, 0);
         }
-        attr_t obstacle_color = A_RGB(255, 128, 128, 0, 0, 0);
+        attr_t obstacle_color = A_RGB(5, 5, 5, 0, 0, 0);
         
         for (unsigned tick = 0; tick < ticksCnt; ++tick) {
             clean_scr();
@@ -83,7 +82,7 @@ int main(int argc, char** argv) {
             move(1, 0);
             for (unsigned i = 0; i < cockroachesCnt; ++i) {
                 attron(cockroach_color[i]);
-                printw("%d:speed(%.1f, %.1f) ", i+1, states[tick][i].getSpeed().first, states[tick][i].getSpeed().second);
+                printw("#%d('%s'):speed(%.1f, %.1f) ", i+1, world.getCockroaches()[i].getName().c_str(), states[tick][i].getSpeed().first, states[tick][i].getSpeed().second);
                 attroff(cockroach_color[i]);
             }
 

@@ -18,7 +18,7 @@ int main(int argc, char** argv) {
             c.push_back(Cockroach(data["cockroaches"][i]));
         for (unsigned int i = 0; i < data["obstacles"].size(); ++i)
             o.push_back(Obstacle(data["obstacles"][i]));
-            
+        
         Track t(data["length"], data["width"]);
         
         t.setCockroaches(c);
@@ -31,7 +31,7 @@ int main(int argc, char** argv) {
         client.sendMessage(t.serialize().dump());
         client.disconnect();
     } catch (const std::exception& e) {
-        std::cerr << e.what();
+        std::cerr << e.what() << std::endl;
         exit(1);
     }
     

@@ -3,6 +3,7 @@
 #include <chrono>
 #include <string>
 #include <vector>
+#include <cstdio>
 #include <sstream>
 #include <json/json.hpp>
 #include "server.h"
@@ -32,7 +33,7 @@ int main() {
         std::string text;
         while (true) {
             std::cout << ">";
-            if (!std::getline(std::cin, text)) break;
+            while (!std::getline(std::cin, text) || text == "");
             
             process_command(text);
             

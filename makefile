@@ -4,10 +4,10 @@ CXXFLAGS=-std=c++11 -Wall -Wextra -Ilibs/include
 LDFLAGS=
 LDLIBS=
 ifeq ($(OS),Windows_NT)
-    LDLIBS+=-lws2_32 -lmswsock -lpdcurses -lgdi32 -lcomdlg32
-    LDFLAGS+=-static-libgcc -static-libstdc++ -static -lpthread
+	LDLIBS+=-lws2_32 -lmswsock -lpdcurses -lgdi32 -lcomdlg32
+	LDFLAGS+=-static-libgcc -static-libstdc++ -static -lpthread
 else
-    LDLIBS+=-lncurses -ltinfo -lgpm -pthread
+	LDLIBS+=-lncurses -ltinfo -lgpm -pthread
 endif
 vpath %.o obj
 vpath %.cpp src
@@ -18,12 +18,12 @@ src_match=cockroach.cpp obstacle.cpp track.cpp state.cpp world.cpp client.cpp ut
 src_view=cockroach.cpp obstacle.cpp state.cpp world.cpp utils.cpp view.cpp
 src_test=cockroach.cpp obstacle.cpp state.cpp world.cpp utils.cpp test.cpp
 
-src_netlink=core.cpp smart_buffer.cpp socket.cpp socket_group.cpp util.cpp
-
 obj_daemon=$(addprefix obj/,$(src_daemon:.cpp=.o))
 obj_match=$(addprefix obj/,$(src_match:.cpp=.o))
 obj_view=$(addprefix obj/,$(src_view:.cpp=.o))
 obj_test=$(addprefix obj/,$(src_test:.cpp=.o))
+
+src_netlink=core.cpp smart_buffer.cpp socket.cpp socket_group.cpp util.cpp
 obj_netlink=$(addprefix obj/libs/netlink/,$(src_netlink:.cpp=.o))
 
 all: daemon match view test
@@ -47,3 +47,4 @@ obj/libs/netlink/%.o: libs/src/netlink/%.cpp
 clean:
 	@$(RM) -r obj
 	@$(RM) daemon match view test
+	@$(RM) run_data.dat

@@ -5,10 +5,11 @@ Racing simulator that involves networking (TCP), strategies (AI), console drawin
 
 ##Build intructions
 ###Windows:
-- Download and install <a href="https://sourceforge.net/projects/mingw-w64/">MinGW-w64</a>
-- Download, build <a href="https://github.com/Bill-Gray/PDCurses">'pdcurses'</a> library and then add it to MinGW
-- Use 'make' to compile
+- Install <a href="https://sourceforge.net/projects/mingw-w64/">MinGW-w64</a>
+- Build <a href="https://github.com/Bill-Gray/PDCurses">'pdcurses'</a> library and then add it to MinGW, or just download already prepaired <a href="">MinGW</a>
+- Use 'make' to build
 
 ###Linux:
-- Install 'curses' library
-- Use 'make' to compile
+- Install 'ncurses' e.g. 'sudo apt-get install libncurses5-dev'
+- Install 'gpm' e.g. 'sudo apt-get install libgpm-dev'
+- Use 'make' to build

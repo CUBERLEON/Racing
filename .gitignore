@@ -22,6 +22,11 @@ build/
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
 
+daemon
+match
+view
+test
+
 *.dat
 *_i.c
 *_p.c

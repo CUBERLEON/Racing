@@ -70,8 +70,12 @@ void process_command(std::string text) {
                 data["obstacles"][i] = m_obstacles[i].serialize();
             
             std::string s = data.dump();
-            replaceStringInPlace(s, "\"", "\"\"\"");
-            system((std::string(".\\match.exe ") + "\"" + s + "\" 5000").c_str());
+            #ifdef _WIN32
+                replaceStringInPlace(s, "\"", "\"\"\"");
+                system((std::string(".\\match.exe ") + "\"" + s + "\" 5000").c_str());
+            #else
+                system((std::string("./match ") + "\'" + s + "\' 5000").c_str());
+            #endif
         } else if (command == "add") {
             if (args.size() == 0)
                 throw std::invalid_argument("There are no parameters. Read 'help' instructions how to use 'add' command.");

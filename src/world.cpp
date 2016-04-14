@@ -42,6 +42,9 @@ json World::serialize() const {
     json r;
     r["length"] = m_length;
     r["width"] = m_width;
+    r["cockroaches"] = json::array();
+    r["obstacles"] = json::array();
+    r["states"] = json::array();
     for (unsigned int i = 0; i < m_cockroaches.size(); ++i)
         r["cockroaches"][i] = m_cockroaches[i].serialize();
     for (unsigned int i = 0; i < m_obstacles.size(); ++i)
@@ -56,13 +59,13 @@ bool World::deserialize(const json& r) {
         m_length = r["length"];
         m_width = r["width"];
         m_cockroaches.clear();
-        for (unsigned int i = 0; i < r["cockroaches"].size(); ++i)
+        for (unsigned int i = 0; r.count("cockroaches") && i < r["cockroaches"].size(); ++i)
             m_cockroaches.push_back(Cockroach(r["cockroaches"][i]));
         m_obstacles.clear();
-        for (unsigned int i = 0; i < r["obstacles"].size(); ++i)
+        for (unsigned int i = 0; r.count("obstacles") && i < r["obstacles"].size(); ++i)
             m_obstacles.push_back(Obstacle(r["obstacles"][i]));
         m_states.clear();
-        for (unsigned int i = 0; i < r["states"].size(); ++i)
+        for (unsigned int i = 0; r.count("states") && i < r["states"].size(); ++i)
             m_states.push_back(State(r["states"][i]));
    } catch (const std::exception& e) {
         std::cerr << e.what();

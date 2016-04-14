@@ -51,6 +51,9 @@ bool Server::start() {
     } catch (NL::Exception e) {
         m_running = false;
         throw std::runtime_error("Couldn't start server. " + std::string(e.what()));
+    } catch (const std::exception& e) {
+        m_running = false;
+        throw std::runtime_error("Couldn't start server. " + std::string(e.what()));
     } catch (...) {
         m_running = false;
         throw std::runtime_error("Couldn't start server.");
@@ -141,7 +144,7 @@ void Server::listener() {
 void Server::startListening() {
     if (!m_isListening) {
         m_isListening = true;
-        m_listeningThread = new std::thread(listener, this);
+        m_listeningThread = new std::thread(&Server::listener, this);
     }
 }
 

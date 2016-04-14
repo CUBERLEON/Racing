@@ -48,6 +48,9 @@ bool Client::connect() {
     } catch (NL::Exception e) {
         m_connected = false;
         throw std::runtime_error("Couldn't connect to server. " + std::string(e.what()));
+    } catch (const std::exception& e) {
+        m_connected = false;
+        throw std::runtime_error("Couldn't connect to server. " + std::string(e.what()));
     } catch (...) {
         m_connected = false;
         throw std::runtime_error("Couldn't connect to server.");
@@ -121,7 +124,7 @@ void Client::listener() {
 void Client::startListening() {
     if (!m_isListening) {
         m_isListening = true;
-        m_listeningThread = new std::thread(listener, this);
+        m_listeningThread = new std::thread(&Client::listener, this);
     }
 }
 

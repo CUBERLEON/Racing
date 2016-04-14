@@ -1,10 +1,13 @@
 CC=g++
 CXX=g++
 CXXFLAGS=-std=c++11 -Wall -Wextra -Ilibs/include
-LDFLAGS=-static-libgcc -static-libstdc++ -static -lpthread
+LDFLAGS=
 LDLIBS=
 ifeq ($(OS),Windows_NT)
     LDLIBS+=-lws2_32 -lmswsock -lpdcurses -lgdi32 -lcomdlg32
+    LDFLAGS+=-static-libgcc -static-libstdc++ -static -lpthread
+else
+    LDLIBS+=-lncurses -ltinfo -lgpm -pthread
 endif
 vpath %.o obj
 vpath %.cpp src

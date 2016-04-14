@@ -84,7 +84,12 @@ bool Track::run() {
     out.open(fileName, std::fstream::out);
     out << data.dump();
     out.close();
-    system((".\\view.exe " + fileName).c_str());
+    
+    #ifdef _WIN32
+        system((".\\view.exe " + fileName).c_str());
+    #else
+        system(("./view " + fileName).c_str());
+    #endif
     
     return m_run_finished = true;
 }

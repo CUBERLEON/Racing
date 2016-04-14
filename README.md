@@ -1,4 +1,4 @@
-#Racing111111
+#Racing
 
 ##Description
 Racing simulator that involves networking (TCP), strategies (AI), console drawing (curses), threading, testing (catch).

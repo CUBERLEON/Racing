@@ -69,13 +69,14 @@ int main(int argc, char** argv) {
         float x_factor = (TRACK_X-1) / world.getLength();
         float y_factor = (TRACK_Y-1) / world.getWidth();
         
-        // init_pair(1, COLOR_RED, COLOR_BLACK);
-        
-        // std::vector<attr_t> cockroach_color(cockroachesCnt);
-        // for (unsigned i = 0; i < cockroachesCnt; ++i) {
-        //     cockroach_color[i] = A_RGB(rand()%256 + 256, rand()%256 + 256, rand()%256 +256, 0, 0, 0);
-        // }
-        // attr_t obstacle_color = A_RGB(5, 5, 5, 0, 0, 0);
+        int color_offset = 100;
+        int pair_offset = 10;
+        for (unsigned i = 0; i < cockroachesCnt; ++i) {
+            init_color(color_offset + i, rand()%807 + 150, rand()%807 + 150, rand()%807 + 150);
+            init_pair(pair_offset + i, color_offset + i, COLOR_BLACK);
+        }
+        init_color(color_offset + cockroachesCnt, 150, 150, 150);
+        init_pair(pair_offset + cockroachesCnt, color_offset + cockroachesCnt, COLOR_BLACK);
         
         for (unsigned tick = 0; tick < ticksCnt; ++tick) {
             clean_scr();
@@ -84,12 +85,12 @@ int main(int argc, char** argv) {
             mvprintw(0, 0, "Tick: %d/%d, Cockroaches: %d", tick+1, ticksCnt, cockroachesCnt);
             move(1, 0);
             for (unsigned i = 0; i < cockroachesCnt; ++i) {
-                // attron(cockroach_color[i]);
+                attron(COLOR_PAIR(pair_offset + i));
                 printw("#%d('%s'):speed(%.1f, %.1f) ", i+1, world.getCockroaches()[i].getName().c_str(), states[tick][i].getSpeed().first, states[tick][i].getSpeed().second);
-                // attroff(cockroach_color[i]);
+                attroff(COLOR_PAIR(pair_offset + i));
             }
 
-            // wattron(track, obstacle_color);
+            wattron(track, COLOR_PAIR(pair_offset + cockroachesCnt));
             for (unsigned i = 0; i < world.getObstacles().size(); ++i) {
                 mvwaddellipse(track, world.getObstacles()[i].getPosY() * y_factor, world.getObstacles()[i].getPosX() * x_factor,
                 '#', world.getObstacles()[i].getRadius() * y_factor, world.getObstacles()[i].getRadius() * x_factor);
@@ -98,13 +99,13 @@ int main(int argc, char** argv) {
                 mvwaddch(track, world.getObstacles()[i].getPosY() * y_factor, world.getObstacles()[i].getPosX() * x_factor,
                 'O');
             }
-            // wattroff(track, obstacle_color);
+            wattroff(track, COLOR_PAIR(pair_offset + cockroachesCnt));
             
             for (unsigned i = 0; i < cockroachesCnt; ++i) {
-                // wattron(track, cockroach_color[i]);
+                wattron(track, COLOR_PAIR(pair_offset + i));
                 mvwaddch(track, states[tick][i].getPos().second * y_factor, states[tick][i].getPos().first * x_factor,
                 'X');
-                // wattroff(track, cockroach_color[i]);
+                wattroff(track, COLOR_PAIR(pair_offset + i));
             }
             
             refresh();

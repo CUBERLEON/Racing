@@ -1,7 +1,7 @@
 #Racing
 
 ##Description
-Racing simulator that involves networking (TCP), strategies (AI), console drawing (curses), threading, testing (catch).
+Racing simulator that involves networking (TCP), strategies (bots), console drawing (curses), threading, unit testing (catch).
 
 ##Build intructions
 ###Windows:
